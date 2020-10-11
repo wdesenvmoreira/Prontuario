@@ -1,6 +1,7 @@
 <?php
     require_once'database/connection.php';
     require_once'controller/userController.php';
+    require_once'controller/personController.php';
 
 
 
@@ -104,3 +105,94 @@ if($url[0]==='usuarios'){
     }
 
 }
+
+if($url[0]==='pessoas'){
+    if($method === 'GET'){
+         if(!$url[1]){
+             try {
+                 $result = PersonController::findAllPerson();
+                 echo $result;
+
+             } catch (Exception $err) {
+
+                 echo$err->getMessage()();
+             }
+         exit;
+         }
+ 
+        //  if($url[1]){
+        //      try {
+ 
+        //          $result = PersonController::findOnePerson($url[1]);
+        //          echo $result;
+        //      } catch (Exception $err) {
+        //          echo$err->getMessage()();
+        //      }
+        //  exit;
+         
+        //  }
+         if($url[1] and $url[2]){
+             
+             $info=[$url[1], $url[2]];
+        
+            try {
+
+                $result = PersonController::findOnePerson($info);
+                echo $result;
+            } catch (Exception $err) {
+                echo$err->getMessage()();
+            }
+        exit;
+        
+        }
+ 
+     }
+ 
+    if($method === 'POST'){
+        if($url[1] === 'incluir'){
+            try {
+                $reqbody = file_get_contents('php://input');
+                $jsonbody = json_decode($reqbody, true);
+
+                $result = PersonController::createPerson($jsonbody);
+                echo$result;
+                
+            } catch (Exception $err) {
+                echo$err->getMessage()();
+            }
+        exit;
+        }
+
+
+        if($url[1] === 'alterar'){
+            try {
+            $reqbody = file_get_contents('php://input');
+            $jsonbody = json_decode($reqbody, true);
+
+                $result = PersonController::updatePerson($jsonbody);
+                echo$result;
+                
+            } catch (Exception $err) {
+                echo$err->getMessage()();
+            }
+        exit;
+        }
+
+        if($url[1] === 'deletar'){
+            try {
+            $reqbody = file_get_contents('php://input');
+            $jsonbody = json_decode($reqbody, true);
+
+                $result = PersonController::deletePerson($jsonbody);
+                echo$result;
+                
+            } catch (Exception $err) {
+                echo$err->getMessage()();
+            }
+        exit;
+        }
+
+    }
+     
+ 
+ }

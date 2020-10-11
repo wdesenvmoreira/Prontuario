@@ -14,14 +14,16 @@
                 
                 echo$err->getMessage()();
             }
-            
-            
+        
             return   json_encode(array('status' => $result ?'Sucesso':'Falha', 'dados' => $result ?$result:''));
         }
 
-        public static function findOnePerson($id){
+        public static function findOnePerson($inf){
+           
+            
+
             try {
-                $inf = ['id_pessoa', $id];
+               
                 $result = Person::find($inf);
                
             } catch (Exception $err) {
@@ -30,17 +32,17 @@
             }
             
             
-            return   json_encode(array('status' => $result ?'Sucesso':'Falha', 'dados' => $result ?$result:''));
+            return   json_encode(array('status' => $result ?'Sucesso':'Falha', 'dados' => $result ?$result:$inf[0].' '.$inf[1].' não encontrado.'));
         }
 
 
         public static function createPerson($data){
 
-            if (empty($data['id_pessoa']) OR empty($data['cpf']) OR empty($data['nomecompleto'])) {
+            if (empty($data['cpf']) OR empty($data['nome_completo'])) {
 
 				echo  json_encode(array('status' => 'Falha', 'dados' => 'Campos obrigatório sem preencher.'));
             }
-            
+
             $result = Person::create($data);
 
             echo  json_encode(array('status' => $result ?'Sucesso':'Falha', 'dados' => $result ?$result:'Erro ao inserir Verifique os campos'));
@@ -56,7 +58,7 @@
 				return false;
             }
             
-            if (empty($data['nomecompleto'])) {
+            if (empty($data['nome_completo'])) {
 				echo  json_encode(array('status' => 'Falha', 'dados' => 'nomecompleto não informado'));  
                 return false;
 
@@ -93,6 +95,4 @@
             }
         } 
 
-
-        
     }

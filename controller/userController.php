@@ -97,15 +97,15 @@
 
         public static function validateUsers($data){
 
-            $sqlCpf = "SELECT CPF FROM pessoa where cpf = ".$data['cpf'];
-            $cpf = Users::findAll($sqlCpf);
+            $inf = ['cpf',$data['cpf']];
+            $cpf = Users::find($inf);
             if(empty($cpf)){
                 echo  json_encode(array('status' => $cpf ?'Sucesso':'Falha', 'dados' => $cpf ?$cpf:'CPF não localizado.'));
                 exit;
             }
 
-            $sqlSenha = "SELECT id_usuarios FROM usuarios where senha =".$data['senha'];
-            $result = Users::findAll($sqlSenha);
+            $inf = ['senha', $data['senha']];
+            $result = Users::find($inf);
 
             echo  json_encode(array('status' => $result ?'Sucesso':'Falha', 'dados' => $result ?$result:'Senha não localizada.'));
             

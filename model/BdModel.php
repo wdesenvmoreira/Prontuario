@@ -2,8 +2,8 @@
 
     class BDModel {
         public static function findAll($sql){
+
             $con = Connection::getConn();
-            // $sql = "SELECT * FROM usuarios ORDER BY id_usuarios ASC";
             $sql = $con->prepare($sql);
             $sql->execute();
 

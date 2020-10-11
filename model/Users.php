@@ -11,7 +11,7 @@ require_once'BdModel.php';
             $tipo = $data['tipo'];
 
             $sql = "INSERT INTO usuarios (id_pessoa, senha, tipo) VALUES (".$id_pessoa.", ".$senha.", ".$tipo.")";
-
+            
             $result = false;
 
             try {
@@ -68,6 +68,14 @@ require_once'BdModel.php';
              }
              if($data[0] === 'Todos'){
                 $sql = "SELECT * FROM usuarios ORDER BY id_usuarios ASC";
+             }
+
+             if($data[0] === 'cpf'){
+                $sql = "SELECT CPF FROM pessoa where cpf = ".$data[1];
+             }
+
+             if($data[0] === 'senha'){
+                 $sql = "SELECT id_usuarios FROM usuarios where senha =".$data[1];
              }
 
              return Users::findAll($sql);
