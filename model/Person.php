@@ -76,6 +76,10 @@ require_once'BdModel.php';
             
         }
 
+        public static function lastInsertId(){
+            
+        }
+
 
 
     }

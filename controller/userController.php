@@ -9,7 +9,6 @@
             try {
                 $inf = ['Todos'];
                 $result = Users::find($inf);
-               
             } catch (Exception $err) {
                 
                 echo$err->getMessage()();
