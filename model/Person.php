@@ -58,18 +58,20 @@ require_once'BdModel.php';
         }
         
         public static function find($data){
-            if($data[0] === 'id'){
+
+            if($data[0] === 'id'){ 
                $sql = "SELECT * FROM pessoa where id_pessoa =".$data[1]; 
             }
-            if($data[0] === 'nome'){
-                $sql = "SELECT * FROM pessoa where nome_completo like '".$data[1]."%' ORDER BY nome_completo ASC"; 
+            if($data[0] === 'pessoas' && $data[1]==='nome'){
+                $sql = "SELECT * FROM pessoa where nome_completo like '%".$data[2]."%' ORDER BY nome_completo ASC"; 
              }
-             if($data[0] === 'cpf'){
-                $sql = "SELECT * FROM pessoa where cpf = '".$data[1]."'" ; 
+             if($data[0] === 'pessoas' && $data[1] === 'cpf'){
+                $sql = "SELECT * FROM pessoa where cpf = '".$data[2]."'" ; 
              }
              if($data[0] === 'Todos'){
                 $sql = "SELECT * FROM pessoa ORDER BY nome_completo ASC";
              }
+
              return Person::findAll($sql);
              
              

@@ -36,14 +36,14 @@ require_once'BdModel.php';
 		{
             $id_medico = $data['id_medico'];
             $crm = $data['crm'];
-            $nome_completo['nome_completo'];
+            $nome_completo=['nome_completo'];
             
             $sqlMedico= null;
 
             $sql = "UPDATE medico set crm = '".$crm."' where id_medico = ".$id_medico;
             if(empty($nome_completo)){
                 $sqlMedico =  "Select id_pessoa  from medico left join pessoa p on(p.id_pessoa = medico.id_pessoa) where medico.id_medico=".$id_medico; 
-                $id_pessoa = findLast($sqlMedico);
+                $id_pessoa = Person::findLast($sqlMedico);
 
                 $sqlPessoa = "UPDATE pessoa set nome_completo = '".$nome_completo."' where id_pessoa = ".$id_pessoa;
 

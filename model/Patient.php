@@ -92,25 +92,25 @@ require_once'Person.php';
 
             try {
                 $result = Patient::execute($sql);
-            } catch (\Throwable $ith) {
+            } catch (\Throwable $th) {
                 return $th;
             }
             return $result;
         }
         
         public static function find($data){
-            if($data[0] === 'id'){
-               $sql = "SELECT * FROM paciente where id_paciente =".$data[1]; 
+            if($data[0] === 'pessoas' && $data[1]==='id'){
+               $sql = "SELECT * FROM paciente where id_paciente =".$data[2]; 
             }
-            if($data[0] === 'nome'){
+            if(($data[0] === 'pessoas' && $data[1]==='nome')){
                 $sql = "SELECT pessoa.*, p.nome_completo FROM paciente
                         left join pessoa p on(p.id_pessoa = paciente.id_pessoa)
-                        where p.nome_completo like '".$data[1]."%' ORDER BY p.nome_completo ASC"; 
+                        where p.nome_completo like '".$data[2]."%' ORDER BY p.nome_completo ASC"; 
              }
-             if($data[0] === 'cpf'){
+             if($data[0] === 'pessoas' && $data[1] === 'cpf'){
                 $sql = "SELECT cpf FROM paciente
                 left join pessoa p on(p.id_pessoa = paciente.id_pessoa)
-                where p.cpf = ".$data[1]." ORDER BY nome_completo ASC"; 
+                where p.cpf = ".$data[2]." ORDER BY nome_completo ASC"; 
              }
              if($data[0] === 'Todos'){
                 $sql = "SELECT * FROM paciente";

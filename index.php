@@ -4,7 +4,7 @@
     require_once'controller/personController.php';
     require_once'controller/patientController.php';
     require_once'controller/doctorController.php';
-
+    require_once'controller/administradorController.php';
     $method ='';
 
 if (isset($_REQUEST)){
@@ -110,7 +110,7 @@ if($url[0]==='usuarios'){
 
 if($url[0]==='pessoas'){
     if($method === 'GET'){
-         if(!$url[1]){
+         if(count($url)===1){
              try {
                  $result = PersonController::findAllPerson();
                  echo $result;
@@ -122,13 +122,9 @@ if($url[0]==='pessoas'){
          exit;
          }
  
-        if($url[1] and $url[2]){
-             
-             $info=[$url[1], $url[2]];
-        
+        if(count($url)>1){
             try {
-
-                $result = PersonController::findOnePerson($info);
+                $result = PersonController::findOnePerson($url);
                 echo $result;
             } catch (Exception $err) {
                 echo$err->getMessage()();
@@ -339,4 +335,77 @@ if($url[0]==='medico'){
     }
 
 }
-    
+
+if($url[0]==='administrador'){
+    if($method === 'GET'){
+         if(count($url)===1){
+             try {
+                 $result = AdministradorController::findAllAdministrador();
+                 echo $result;
+
+             } catch (Exception $err) {
+
+                 echo$err->getMessage()();
+             }
+         exit;
+         }
+ 
+        if(count($url)>1){
+            try {
+                $result = AdministradorController::findOneAdministrador($url);
+                echo $result;
+            } catch (Exception $err) {
+                echo$err->getMessage()();
+            }
+            exit;
+        
+        }
+ 
+     }
+ 
+    if($method === 'POST'){
+        if($url[1] === 'incluir'){
+            try {
+                $reqbody = file_get_contents('php://input');
+                $jsonbody = json_decode($reqbody, true);
+
+                $result = AdministradorController::createAdministrador($jsonbody);
+                echo$result;
+                
+            } catch (Exception $err) {
+                echo$err->getMessage()();
+            }
+        exit;
+        }
+
+
+        if($url[1] === 'alterar'){
+            try {
+            $reqbody = file_get_contents('php://input');
+            $jsonbody = json_decode($reqbody, true);
+
+                $result = AdministradorController::updateAdministrador($jsonbody);
+                echo$result;
+                
+            } catch (Exception $err) {
+                echo$err->getMessage()();
+            }
+        exit;
+        }
+
+        if($url[1] === 'deletar'){
+            try {
+            $reqbody = file_get_contents('php://input');
+            $jsonbody = json_decode($reqbody, true);
+
+                $result = AdministradorController::deleteAdministrador($jsonbody);
+                echo$result;
+                
+            } catch (Exception $err) {
+                echo$err->getMessage()();
+            }
+        exit;
+        }
+
+    }
+}
